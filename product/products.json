@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "nome": "Camiseta",
+    "descricao": "Camiseta de algodão, falso, mas é algodão",
+    "categoria": "Vestuário"
+  },
+  {
+    "id": 2,
+    "nome": "Tênis",
+    "descricao": "Tênis esportivo para pessoas não esportivas",
+    "categoria": "Calçados"
+  },
+  {
+    "id": 3,
+    "nome": "Celular",
+    "descricao": "Smartphone com tela quebrada",
+    "categoria": "Eletrônicos"
+  },
+  {
+    "id": 4,
+    "nome": "Livro",
+    "descricao": "Auto ajuda mentiroso",
+    "categoria": "Livros"
+  },
+  {
+    "id": 5,
+    "nome": "Bolsa",
+    "descricao": "Bolsa de couro sintético",
+    "categoria": "Acessórios"
+  },
+  {
+    "id": 5,
+    "nome": "Tenis",
+    "descricao": "Tenis muito louco maneirinho",
+    "categoria": "Acessórios"
+  },
+  {
+    "id": 5,
+    "nome": "Celular",
+    "descricao": "É falso, mas é massa",
+    "categoria": "Acessórios"
+  }
+]

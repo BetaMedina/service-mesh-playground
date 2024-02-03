@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: price-api-svc
+  labels:
+    app: price-api
+spec:
+  type: ClusterIP
+  selector:
+    app: price-api
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: inventory-api-svc
+  labels:
+    app: inventory-api-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: inventory-api
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 8010

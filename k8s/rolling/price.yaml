@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: price-api-blue
+  labels:
+    version: v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: price-api
+  template:
+    metadata:
+      labels:
+        app: price-api
+        version: v1
+    spec:
+      containers:
+      - name: price-api
+        image: betamedina/prices-api:latest
+        ports:
+        - containerPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: price-api-green
+  labels:
+    version: v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: price-api
+  template:
+    metadata:
+      labels:
+        app: price-api
+        version: v1
+    spec:
+      containers:
+      - name: price-api
+        image: betamedina/prices-api:latest
+        ports:
+        - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name:  price-api-lb
+  labels:
+    app: price-api-lb
+spec:
+  type:  LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8000
+  selector:
+    app:  price-api

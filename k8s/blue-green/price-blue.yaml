@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: price-api-blue
+  labels:
+    version: v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: price-api
+      env: blue
+  template:
+    metadata:
+      labels:
+        app: price-api
+        version: v1
+        env: blue
+  
+    spec:
+      containers:
+      - name: price-api
+        image: betamedina/prices-api:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name:  DEPLOYMENT_COLOR
+          value: blue

@@ -1,0 +1,43 @@
+kind: VirtualService
+apiVersion: networking.istio.io/v1alpha3
+metadata:
+  name: price-api-virtual
+  namespace: default
+spec:
+  hosts:
+    - price-api-svc.default.svc.cluster.local
+  http:
+    - match:
+        - uri:
+            prefix: /health # apenas para ilustrar o uso do 'rewrite
+      rewrite:
+        uri: /products/1  # Correção: agora redirecionando de /inventory/ para /
+      route:
+        - destination:
+            host: inventory-api-svc.default.svc.cluster.local
+            subset: v1   
+    - match:
+        - uri:
+            prefix: /inventory/metrics
+      rewrite:
+        uri: /metrics  # apenas para ilustrar o uso do 'rewrite'
+      route:
+        - destination:
+            host: inventory-api-svc.default.svc.cluster.local
+            subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: inventory-destination
+spec:
+  host: inventory-api-svc.default.svc.cluster.local
+  subsets:
+  - name: v1
+    labels:
+      app: inventory-api
+    trafficPolicy:
+      loadBalancer:
+        simple: ROUND_ROBIN
+#kubectl exec -it pod-name -n default /bin/bash
+#curl http://price-api-svc.default.svc.cluster.local/health

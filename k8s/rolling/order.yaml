@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-api
+  labels:
+    version: v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: order-api
+  template:
+    metadata:
+      labels:
+        app: order-api
+        version: v1
+    spec:
+      containers:
+      - name: order-api
+        image: betamedina/order-api:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name:  PRODUCT_URL
+          value: "http://product-api-lb:9000"
+        - name:  PRICE_URL
+          value: "http://price-api-lb:8000"        
+        - name:  INVENTORY_URL
+          value: "http://inventory-api-lb:8010"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-api-error
+  labels:
+    version: v2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: order-api
+  template:
+    metadata:
+      labels:
+        app: order-api
+        version: v2
+    spec:
+      containers:
+      - name: order-api
+        image: betamedina/order-api:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name:  PRODUCT_URL
+          value: "http://product-api-lb:9000"
+        - name:  PRICE_URL
+          value: "http://price-api-lb:8000"        
+        - name:  INVENTORY_URL
+          value: "http://inventory-api-lb:8010"
+        - name:  ERROR
+          value: "true"
+        - name: ERROR_RATE
+          value: "0.5"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name:  order-api-lb
+  labels:
+    app: order-api-lb
+spec:
+  type:  LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8080
+  selector:
+    app:  order-api
+---
+# apiVersion: networking.istio.io/v1alpha3
+# kind: DestinationRule
+# metadata:
+#   name: circuit-breaker-order-service
+# spec:
+#   host: order-api-lb.default.svc.cluster.local
+#   trafficPolicy:
+#     outlierDetection:
+#       consecutive5xxErrors: 2
+#       interval: 10s
+#       baseEjectionTime: 30s
+#       maxEjectionPercent: 100

@@ -1,0 +1,30 @@
+[
+  {
+    "skuId": 1,
+    "inventory": 5
+  },
+  {
+    "skuId": 2,
+    "inventory": 1
+  },
+  {
+    "skuId": 3,
+    "inventory": 3
+  },
+  {
+    "skuId": 4,
+    "inventory": 4
+  },
+  {
+    "skuId": 5,
+    "inventory": 5
+  },
+  {
+    "skuId": 5,
+    "inventory": 1
+  },
+  {
+    "skuId": 5,
+    "inventory": 5
+  }
+]

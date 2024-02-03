@@ -1,0 +1,53 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: price-api-v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: price-api  # Corrigido para corresponder ao rótulo 'app' usado no 'DestinationRule'
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: price-api
+        version: v1
+    spec:
+      terminationGracePeriodSeconds: 5
+      containers:
+      - name: price-api-v1
+        image: betamedina/prices-api:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DEPLOYMENT_COLOR
+          value: OLD_VERSION
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: price-api-v2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: price-api  # Corrigido para corresponder ao rótulo 'app' usado no 'DestinationRule'
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: price-api
+        version: v2
+    spec:
+      terminationGracePeriodSeconds: 5
+      containers:
+      - name: price-api-v1
+        image: betamedina/prices-api:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DEPLOYMENT_COLOR
+          value: NEW_VERSION
